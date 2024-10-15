@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
-from config import embedding_model_path
+from config import embedding_model_path, embedding_server_url, embedding_server_port
 app = FastAPI()
 model = SentenceTransformer(embedding_model_path)
 
@@ -23,4 +23,4 @@ def get_embedding(sentence: Sentence):
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=50072)
+    uvicorn.run(app, host=embedding_server_url, port=embedding_server_port)

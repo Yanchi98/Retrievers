@@ -1,5 +1,6 @@
 numpy~=2.0.2
-faiss~=1.9.0
+faiss-cpu~=1.9.0
+#faiss-gpu~=1.9.0
 retry~=0.9.2
 uvicorn~=0.31.1
 fastapi~=0.115.2
