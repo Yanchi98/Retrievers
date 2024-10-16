@@ -11,6 +11,7 @@ from faiss import IndexFlatIP
 from util import setup_logger
 from config import *
 from EmbeddingHelper.embedding_api import get_embedding
+from preprocess.add_corpus import corpus, text_node_id_mapping
 
 class VectorSearch(BaseRetriever):
     def __init__(self, top_k, faiss_index, query_rewrite=False)->None:
@@ -25,10 +26,7 @@ class VectorSearch(BaseRetriever):
         self.faiss_index.add(corpus_embeddings)
         self.logger.info("Corpus Embeddings loaded")
 
-        with open(corpus_path, mode='r', encoding='utf-8') as f:
-            content = json.loads(f.read())
-        corpus = content['corpus']
-        self.text_node_id_mapping = {text:node_id for node_id, text in corpus.items()}
+        self.text_node_id_mapping = text_node_id_mapping
         self.corpus = list(corpus.values())
 
     def _retrieve(self, query:QueryType) -> List[NodeWithScore]:
