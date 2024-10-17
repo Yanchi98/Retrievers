@@ -5,6 +5,11 @@ from config import corpus_path, dimension, corpus_embedding_path
 from EmbeddingHelper.embedding_api import get_embedding
 
 def build_with_context(context_type: str):
+    '''
+    把corpus向量化
+    :param context_type:
+    :return:
+    '''
     with open(corpus_path, "r", encoding="utf-8") as f:
         content = json.loads(f.read())
     queries = list(content[context_type].values())
