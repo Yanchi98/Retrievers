@@ -11,7 +11,7 @@ from faiss import IndexFlatIP
 from util import setup_logger
 from config import *
 from EmbeddingHelper.embedding_api import get_embedding
-from preprocess.add_corpus import corpus, text_node_id_mapping
+from preprocess.llamainex_add_corpus import corpus, text_node_id_mapping
 
 class VectorSearch(BaseRetriever):
     def __init__(self, top_k, faiss_index, query_rewrite=False)->None:

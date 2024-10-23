@@ -1,0 +1,28 @@
+{
+    "create_index": {
+        "mappings": {
+            "properties": {
+                "node_id": {
+                    "type": "text"
+                },
+                "context": {
+                    "type": "text",
+                    "fields": {
+                        "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "search": {
+        "query": {
+            "match": {
+                "context": "{{query}}"
+            }
+        },
+        "size": "{{top_k}}"
+    }
+}

@@ -4,7 +4,7 @@ from tqdm import tqdm
 from config import corpus_path, dimension, corpus_embedding_path
 from EmbeddingHelper.embedding_api import get_embedding
 
-def build_with_context(context_type: str):
+def build_with_context(context_type: str) -> None:
     '''
     把corpus向量化
     :param context_type:

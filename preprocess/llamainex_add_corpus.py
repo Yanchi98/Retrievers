@@ -1,3 +1,10 @@
+"""
+该文件用于向量检索，主要功能包括：
+1. 从指定的 JSON 文件加载语料库和查询。
+2. 生成查询相关文档的映射。
+3. 创建节点 ID 和文本之间的映射关系。
+"""
+
 import json
 from config import corpus_path
 

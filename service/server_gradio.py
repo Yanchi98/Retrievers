@@ -5,10 +5,11 @@ from faiss import IndexFlatIP
 from llama_index.core.evaluation.retrieval.metrics import HitRate, MRR
 
 from Retriver.vectorSearch import VectorSearch
-from config import dimension
-from preprocess.add_corpus import queries, query_relevant_docs
+from Retriver.bm25Search import bm25Search
+from config import dimension, gradio_host, gradio_port
+from preprocess.llamainex_add_corpus import queries, query_relevant_docs
 
-retrieve_methods = ["embedding"]
+retrieve_methods = ["embedding", "bm25"]
 
 
 def get_metric(search_query, search_result):
@@ -29,12 +30,19 @@ def get_retrieve_result(retriever_list, retrieve_top_k, query_textbox, query_dro
         columns = {"metric_&_top_k": ["Hit Rate", "MRR"] + [f"top_{k + 1}" for k in range(retrieve_top_k)]}
         retrieve_query = query_dropdown
 
-    print(retrieve_query)
+    if "bm25" in retriever_list:
+        bm25_retriever = bm25Search(top_k=retrieve_top_k)
+        search_result = bm25_retriever.retrieve(retrieve_query)
+        columns["bm25"] = []
+        if usage == 'Evaluation':
+            columns["bm25"].extend(get_metric(retrieve_query, search_result))
+        for i, node in enumerate(search_result, start=1):
+            columns["bm25"].append(node.text)
+
     if "embedding" in retriever_list:
         faiss_index = IndexFlatIP(dimension)
         vector_search_retriever = VectorSearch(top_k=retrieve_top_k, faiss_index=faiss_index)
         search_result = vector_search_retriever.retrieve(str_or_query_bundle=retrieve_query)
-        print(search_result)
         columns["embedding"] = []
         if usage == 'Evaluation':
             columns["embedding"].extend(get_metric(retrieve_query, search_result))
@@ -76,4 +84,4 @@ with gr.Blocks() as demo:
                  outputs=result_table)
 
 
-demo.launch(server_port=6006, server_name="127.0.0.1")
+demo.launch(server_port=gradio_port, server_name=gradio_host)

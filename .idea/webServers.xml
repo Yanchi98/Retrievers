@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d7fd0adc-ea63-4602-9195-d2ff9a31bf41" name="embedding">
+        <fileTransfer rootFolder="/root/autodl-tmp/Retrievers" accessType="SFTP" host="connect.cqa1.seetacloud.com" port="10622" sshConfigId="5954c289-f88b-48a5-a6e7-849d30dd5330" sshConfig="root@connect.cqa1.seetacloud.com:10622 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" isUseRsync="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
