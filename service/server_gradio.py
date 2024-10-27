@@ -6,10 +6,11 @@ from llama_index.core.evaluation.retrieval.metrics import HitRate, MRR
 
 from Retriver.vectorSearch import VectorSearch
 from Retriver.bm25Search import bm25Search
+from Retriver.ensembleSearch import EnsembleSearch
 from config import dimension, gradio_host, gradio_port
 from preprocess.llamainex_add_corpus import queries, query_relevant_docs
 
-retrieve_methods = ["embedding", "bm25"]
+retrieve_methods = ["embedding", "bm25", "ensemble"]
 
 
 def get_metric(search_query, search_result):
@@ -49,6 +50,18 @@ def get_retrieve_result(retriever_list, retrieve_top_k, query_textbox, query_dro
         for i in range(retrieve_top_k):
             columns["embedding"].append(search_result[i].text)
         faiss_index.reset()
+
+    if "ensemble" in retriever_list:
+        faiss_index = IndexFlatIP(dimension)
+        ensemble_search_retriever = EnsembleSearch(top_k=retrieve_top_k, faiss_index=faiss_index)
+        search_result = ensemble_search_retriever.retrieve(str_or_query_bundle=retrieve_query)
+        columns["ensemble"] = []
+        if usage == 'Evaluation':
+            columns["ensemble"].extend(get_metric(retrieve_query, search_result))
+        for i in range(retrieve_top_k):
+            columns["ensemble"].append(search_result[i].text)
+        faiss_index.reset()
+
     retrieve_df = pd.DataFrame(columns)
     return retrieve_df
 
