@@ -4,13 +4,21 @@ import json
 project_path = os.path.abspath(os.path.dirname(__file__))
 corpus_path = os.path.join(project_path, 'data/test', 'doc_qa_dataset.json')
 
-# embedding相关配置
+# embedding配置
 em_model = 'bge-large-zh-v1.5'
 dimension = 1024
 embedding_server_url = "0.0.0.0"
 embedding_server_port = 50072
 embedding_model_path =  os.path.join(project_path, 'model', em_model)
 corpus_embedding_path = os.path.join(project_path, 'data/test', f'doc_qa_dataset_{em_model}.npy')
+
+# reranker配置
+reranker_model = 'bge-reranker-large'
+reranker_model_path = os.path.join(project_path, 'model', reranker_model)
+reranker_server_url = "127.0.0.1"
+#reranker_server_url = "0.0.0.0"
+reranker_server_port = 6006
+#reranker_server_port = 50071
 
 # es配置
 es_server_url = "127.0.0.1"
